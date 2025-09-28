@@ -3,174 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Navigation</title>
+    <title>School Management System Dashboard</title>
     <style>
+        /* Base Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f2f5;
         }
         .container {
             padding: 20px;
         }
-        
-        /* HEADER: Mobile-first responsive layout */
+
+        /* Header and Controls */
         .header {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 10px;
+            gap: 15px;
             margin-bottom: 20px;
-            /* Flex-wrap for small screens */
-            flex-wrap: wrap; 
+            flex-wrap: wrap; /* Mobile-first wrapping */
         }
-        
         #toggleNavBtn {
-            padding: 8px 15px;
+            padding: 10px 20px;
             border: none;
-            background-color: #007BFF;
+            background-color: #1877f2; /* Facebook Blue for a modern look */
             color: white;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            /* Small screen order */
             order: 1; 
+            font-weight: bold;
+            transition: background-color 0.2s;
         }
-        
+        #toggleNavBtn:hover {
+            background-color: #145dbf;
+        }
+
         #searchBox {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             width: 300px;
-            /* Ensure search box uses the remaining space or goes to the next line */
-            flex-grow: 1; 
-            max-width: 100%; /* Prevents overflow */
-            order: 2; /* Small screen order */
+            flex-grow: 1;
+            max-width: 100%;
+            order: 2; 
         }
-        
-        /* NAVBAR */
+
+        /* Navigation Bar (The main menu) */
         .navbar {
             display: flex;
             background-color: #333;
+            border-radius: 8px;
+            padding: 0; 
             overflow: hidden;
             flex-wrap: wrap; 
-            border-radius: 5px;
-            padding: 0; 
+            
+            /* Collapsible logic */
             max-height: 0; 
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-            width: 100%; /* Ensure it takes full width */
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            margin-bottom: 20px;
+        }
+        .navbar.visible {
+            max-height: 1000px; /* Large enough to show all content */
+            padding: 5px;
         }
         
         .navbar a {
             color: white;
             text-align: center;
-            padding: 14px 16px;
+            padding: 14px 18px;
             text-decoration: none;
-            font-size: 17px;
+            font-size: 16px;
             display: block;
-            /* Key for mobile: Allow links to wrap or take full width */
-            flex-grow: 1; 
-            min-width: 100px; /* Minimum size before wrapping */
+            flex-grow: 1; /* Allows links to share space */
+            min-width: 120px; 
             box-sizing: border-box;
+            transition: background-color 0.2s;
         }
-        
-        /* Mobile-Specific Adjustment for links */
-        @media (max-width: 600px) {
-            .navbar a {
-                width: 100%; /* Each link on its own line on mobile */
-                text-align: left;
-            }
-            .container {
-                padding: 10px; /* Less padding on small screens */
-            }
-            #searchBox {
-                margin-top: 5px; /* Separate search box from button on mobile */
-            }
-        }
-        
         .navbar a:hover {
-            background-color: #ddd;
-            color: black;
+            background-color: #007BFF;
+            color: white;
         }
-        .navbar.visible {
-            max-height: 1000px;
-            padding: 5px;
-        }
-        
-        /* SEARCH RESULTS */
+
+        /* Search Results (Autocomplete dropdown) */
         .search-results {
             list-style-type: none;
             padding: 0;
-            margin-top: 10px;
+            margin-top: 5px;
+            position: absolute; /* Position relative to .container */
+            z-index: 10; /* Ensures it's above other elements */
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: calc(100% - 40px); /* Adjust based on container padding */
             max-width: 400px;
         }
         .search-results li {
-            background-color: #fff;
-            margin-bottom: 5px;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border-bottom: 1px solid #eee;
             cursor: pointer;
             transition: background-color 0.2s;
+        }
+        .search-results li:last-child {
+            border-bottom: none;
         }
         .search-results li:hover {
             background-color: #f0f0f0;
         }
-        .search-results a {
-            text-decoration: none;
-            color: #333;
-            display: block;
+
+        /* IFRAME - The main content area */
+        #mainFrame {
+            width: 100%;
+            height: 70vh; /* Viewport Height for a better fit */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 20px;
         }
         
-        /* IFRAME */
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: 1px solid #ccc;
-            margin-top: 20px;
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .navbar a {
+                flex-basis: 100%; /* Links take full width on smaller screens */
+                text-align: left;
+            }
+            .header {
+                flex-direction: column; /* Stack button and search box */
+                align-items: stretch;
+            }
+            #toggleNavBtn, #searchBox {
+                order: initial; /* Reset order for stacking */
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <button id="toggleNavBtn" onclick="toggleNav()">Toggle Navigation</button>
-            <input type="text" id="searchBox" placeholder="Search for a page...">
+            <button id="toggleNavBtn" onclick="toggleNav()">MENU</button>
+            <input type="text" id="searchBox" placeholder="Quick search for a module...">
         </div>
         
+        <nav id="myNavbar" class="navbar">
+            </nav>
         
         <ul id="searchResults" class="search-results" style="display:none;"></ul>
         
-        <iframe id="mainFrame" name="mainFrame"></iframe>
+        <h1>School Management System Dashboard</h1>
+        <iframe id="mainFrame" name="mainFrame" src="about:blank"></iframe>
     </div>
     
     <script>
-        // Ensure you replace URLs in navData with your actual URLs, especially the Google Script URLs
+        // 🚨 IMPORTANT: Replace all local/private file paths and URLs with
+        // valid, public URLs for a real GitHub project, or create dummy HTML files
+        // and link to those instead (e.g., 'data-entry.html', 'attendance.html').
         const navData = [
-            { name: "Data Entry", url: "https://script.google.com/macros/s/AKfycbwwPoXOzNTiBi88XiE31fCOJpTKrE5sQszlsL8BSiYGRNQCOGWJLqfUtLgbb9UmJQ/exec" },
-            { name: "Attendance", url: "https://script.google.com/macros/s/AKfycbzr6bO-gmraY5tyhHtTUyDjpHUGMwfpaozlwmMVeK1I4hIaB-BCDl1HGTD9Z6W_kujkXw/exec" },
-            { name: "IX ADMIT CARD", url: "file:///F:/High%20school%20jokbahar/Admit%20Card%20Generator/class%20-%20ix.html" },
-            { name: "VIII ADMIT CARD", url: "Admit%20Card_files/Admit%20Card-7.html" },
-            { name: "VII ADMIT CARD", url: "Admit%20Card_files/Admit%20Card-7.html" },
-            { name: "VI ADMIT CARD", url: "Admit%20Card_files/Admit%20Card-6.html" },
-            { name: "About", url: "ADMIT%20CARD_files/Excel%20Reader.html" },
-            { name: "Contact", url: "ADMIT%20CARD_files/Search%20Engine.html" },
-            { name: "Google Search", url: "https://www.w3schools.com/html/tryit.asp?filename=tryhtml_intro" },
-            { name: "Wikipedia", url: "https://script.google.com/macros/s/AKfycbzr6bO-gmraY5tyhHtTUyDjpHUGMwfpaozlwmMVeK1I4hIaB-BCDl1HGTD9Z6W_kujkXw/exec" },
-            { name: "google Site", url: "https://sites.google.com/view/attendance-we" }
+            { name: "Dashboard", url: "https://www.w3schools.com/tags/tag_iframe.asp" }, // Placeholder start page
+            { name: "Student Records", url: "https://script.google.com/macros/s/AKfycbwwPoXOzNTiBi88XiE31fCOJpTKrE5sQszlsL8BSiYGRNQCOGWJLqfUtLgbb9UmJQ/exec" },
+            { name: "Attendance Tracking", url: "https://script.google.com/macros/s/AKfycbzr6bO-gmraY5tyhHtTUyDjpHUGMwfpaozlwmMVeK1I4hIaB-BCDl1HGTD9Z6W_kujkXw/exec" },
+            { name: "IX Admit Card", url: "admit-card-ix.html" }, // Better for GitHub
+            { name: "VIII Admit Card", url: "admit-card-viii.html" }, 
+            { name: "Grades & Results", url: "grades-results.html" },
+            { name: "Staff Management", url: "staff-management.html" },
+            { name: "Fees Collection", url: "fees-collection.html" },
+            { name: "Settings & Setup", url: "settings.html" },
+            { name: "Help/Documentation", url: "documentation.html" }
         ];
 
-        function toggleNav() {
-            const navbar = document.getElementById('myNavbar');
-            navbar.classList.toggle('visible');
-        }
-
+        const navbar = document.getElementById('myNavbar');
         const searchBox = document.getElementById('searchBox');
         const searchResults = document.getElementById('searchResults');
         const mainFrame = document.getElementById('mainFrame');
 
-        searchBox.addEventListener('input', function() {
-            const query = this.value.toLowerCase();
+        // Function to create the navigation links dynamically
+        function createNavbarLinks() {
+            navbar.innerHTML = ''; // Clear existing content
+            navData.forEach(item => {
+                const link = document.createElement('a');
+                link.href = item.url;
+                link.textContent = item.name;
+                link.target = 'mainFrame'; // Loads link into the iframe
+                link.addEventListener('click', () => {
+                    // Optional: Close nav after clicking a link on mobile
+                    if (window.innerWidth <= 768) {
+                       navbar.classList.remove('visible');
+                    }
+                });
+                navbar.appendChild(link);
+            });
+        }
+
+        // Function to toggle the navigation menu visibility
+        function toggleNav() {
+            navbar.classList.toggle('visible');
+        }
+
+        // Function for the search box logic
+        function handleSearchInput() {
+            const query = searchBox.value.toLowerCase();
             searchResults.innerHTML = '';
             
             if (query.length > 0) {
@@ -186,7 +218,9 @@
                         li.addEventListener('click', () => {
                             mainFrame.src = item.url;
                             searchResults.style.display = 'none';
-                            searchBox.value = '';
+                            searchBox.value = item.name; // Show selected item in box
+                            // Hide the nav menu upon successful selection
+                            navbar.classList.remove('visible'); 
                         });
                         searchResults.appendChild(li);
                     });
@@ -197,10 +231,17 @@
             } else {
                 searchResults.style.display = 'none';
             }
-        });
+        }
+        
+        // --- Initialization ---
+        // 1. Create the links on load
+        createNavbarLinks();
+        // 2. Attach the search event listener
+        searchBox.addEventListener('input', handleSearchInput);
+        
+        // 3. Set the initial iframe content (optional, but good practice)
+        mainFrame.src = navData[0].url; // Load the Dashboard by default
+
     </script>
 </body>
-
 </html>
-
-

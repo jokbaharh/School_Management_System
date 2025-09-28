@@ -11,9 +11,31 @@
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap");
     @import url("https://fonts.googleapis.com/css2?family=Arial:wght@700&display=swap");
+    
     body {
       font-family: "Times New Roman", serif;
+      position: relative; /* For body::before to work as a global watermark */
     }
+
+    /* --- GLOBAL WATERMARK CSS START (वॉटरमार्क पूरे पेज पर) --- */
+    body::before {
+        content: '';
+        position: fixed; /* Fixed position ensures it covers the viewport */
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        /* School Seal Watermark URL यहाँ डालें */
+        background-image: url('https://github.com/jokbaharh/School_Management_System/blob/main/image/JOKBAHAR%20document%20backgroung%20txt.png?raw=true'); 
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 50%; /* Watermark size */
+        background-color: white;
+        opacity: 0.1; /* Low opacity for watermark effect */
+        z-index: -1; /* Send behind content */
+    }
+    /* --- GLOBAL WATERMARK CSS END --- */
+
     .marksheet {
       page-break-after: always;
       margin-bottom: 40px;
@@ -24,41 +46,20 @@
       margin-left: auto;
       margin-right: auto;
       background-color: white;
-      /* --- WATERMARK CSS START --- */
-      /* School Seal Watermark URL यहाँ डालें */
-      background-image: url('https://github.com/jokbaharh/School_Management_System/blob/main/image/JOKBAHAR%20document%20backgroung%20txt.png?raw=true'); 
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 50%; /* Watermark size */
-      background-color: white;
-      /* --- WATERMARK CSS END --- */
+      /* Watermark CSS removed from here */
     }
-    .marksheet::before {
-        /* Watermark Opacity - Ensure text is readable */
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        /* Re-apply the background image here with opacity for better PDF rendering */
-        background-image: url('https://github.com/jokbaharh/School_Management_System/blob/main/image/JOKBAHAR%20document%20backgroung%20txt.png?raw=true');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 50%;
-        opacity: 0.1; /* Low opacity for watermark effect */
-        z-index: 0;
-    }
-  .logo {
+    
+    .logo {
       position: absolute;
-      top: -3.5rem;
-      left: 0.5rem;
+      top: 0.5rem; /* Logo को marksheeet के अंदर top: 0.5rem पर सेट किया गया है */
+      right: 0.5rem; /* right: 0.5rem पर सेट किया गया है (अगर आपने style attribute में right:0.5rem सेट किया है) */
+      left: unset; /* left: 0.5rem; हटा दिया गया है ताकि right काम करे */
       width: 80px;
       height: 80px;
       object-fit: contain;
-      z-index: 1; /* Logo must be above the watermark */
+      z-index: 100; /* Ensure Logo is above content and watermark */
     }
-	  
+	
     .marksheet > * {
         position: relative;
         z-index: 10; /* Ensure all content is above the watermark */
@@ -83,6 +84,8 @@
         box-shadow: none;
         border: 1px solid #1e40af;
       }
+      /* Print: Ensure watermark prints too by making it relative to marksheet */
+      /* Since we are using global body::before, this is less critical now */
     }
     #downloadPdfBtn {
       max-width: 900px;
@@ -100,8 +103,6 @@
     #downloadPdfBtn:hover {
       background-color: #1e3a8a;
     }
-
-    /* .marksheet background-image code removed as replaced by ::before for better PDF */
 
     /* Make NAME, DOB, FATHER'S NAME, MOTHER'S NAME, STUDENT'S ADDRESS text Arial Bold */
     .arial-bold {
@@ -186,7 +187,7 @@
           "SO SCIENCE",
           "PRACTICAL",
           "SANSKRIT",
-	 "PRACTICAL",
+	        "PRACTICAL",
           "STUDENT'S ADDRESS",
           "PHOTO",
         ],
@@ -209,7 +210,7 @@
           72,
           20,
           78,
-	  20,
+	        20,
           "SIMDEGA, SALDEGA, JHJARKHAND 835223",
           "student image",
         ],
@@ -245,6 +246,7 @@
         { wch: 20 },
         { wch: 20 },
         { wch: 15 },
+        { wch: 10 },
         { wch: 10 },
         { wch: 10 },
         { wch: 10 },
@@ -388,16 +390,16 @@
           class="logo"
           width="80"
           height="80"
-		  style="top: 0.5rem; left: unset; right: 0.5rem;" 
+		      style="top: 0.5rem; left: unset; right: 0.5rem;" 
         />
-        <div class="text-center mt-6 mb-1">
-          <h1 class="text-blue-800 font-bold text-lg underline tracking-wide">
+        <div class="text-center mt-2 mb-2">
+          <h1 class="text-blue-800 font-bold text-2xl underline tracking-wide">
             PROPOSSED HIGH SCHOOL, JOKBAHAR, SIMDEGA
           </h1>
-          <h2 class="text-blue-800 text-sm font-semibold tracking-wide">
+          <h2 class="text-blue-800 text-base font-semibold tracking-wide">
             VII ANNUAL EXAMINATION (2023-24)
           </h2>
-          <h3 class="text-blue-800 text-sm font-semibold tracking-wide">
+          <h3 class="text-blue-800 text-lg font-semibold tracking-wide">
             MARKSHEET - 2024
           </h3>
         </div>
@@ -406,27 +408,27 @@
             <table cellpadding="0" cellspacing="0" class="w-full border border-blue-700 text-[10px] text-blue-900">
               <tbody>
                 <tr>
-                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Roll Code :</th>
+                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Roll Code :</th>
                   <td class="border border-blue-700 px-1 py-0.5 text-left arial-bold" style="min-width: 70px">${escapeHtml(student.CLASS)}</td>
-                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Roll No :</th>
+                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Roll No :</th>
                   <td class="border border-blue-700 px-1 py-0.5 text-left arial-bold" style="min-width: 70px">${escapeHtml(student["ROLL No."])}</td>
                   <th class="border border-blue-700 px-1 py-0.5 text-left" style="min-width: 90px">PEN No :</th>
                   <td class="border border-blue-700 px-1 py-0.5 text-left arial-bold" style="min-width: 90px">${escapeHtml(student["PEN No."])}</td>
                 </tr>
                 <tr>
-                  <th class="border border-blue-700 px-1 py-0.5 text-left  bold" style="min-width: 70px">Student's Name :</th>
+                  <th class="border border-blue-700 px-1 py-0.5 text-left  bold" style="min-width: 70px">Student's Name :</th>
                   <td class="border border-blue-700 px-1 py-0.5 text-left arial-bold" colspan="3" style="min-width: 250px">${escapeHtml(student.NAME)}</td>
-                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Date of Birth :</th>
+                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Date of Birth :</th>
                   <td class="border border-blue-700 px-1 py-0.5 text-left arial-bold" style="min-width: 90px">${escapeHtml(student["DATE OF BIRTH"])}</td>
                 </tr>
                 <tr>
-                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Mother's Name :</th>
+                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Mother's Name :</th>
                   <td class="border border-blue-700 px-1 py-0.5 text-left arial-bold" colspan="3" style="min-width: 250px">${escapeHtml(student["MOTHER'S NAME"])}</td>
-                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Father's Name :</th>
+                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Father's Name :</th>
                   <td class="border border-blue-700 px-1 py-0.5 text-left arial-bold" style="min-width: 90px">${escapeHtml(student["FATHER'S NAME"])}</td>
                 </tr>
                 <tr>
-                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Student's Address :</th>
+                  <th class="border border-blue-700 px-1 py-0.5 text-left  " style="min-width: 70px">Student's Address :</th>
                   <td class="border border-blue-700 px-1 py-0.5 text-left arial-bold" colspan="5" style="min-width: 350px">${escapeHtml(student["STUDENT'S ADDRESS"] || "")}</td>
                 </tr>
               </tbody>
@@ -610,17 +612,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

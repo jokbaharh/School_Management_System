@@ -10,10 +10,26 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5;
+            background-color: #f0f2f5; /* Fallback color */
+            
+            /* --- PROFESSIONAL BACKGROUND IMAGE WITH OVERLAY --- */
+            /* सुनिश्चित करें कि 'images/school-bg-overlay.jpg' आपके प्रोजेक्ट में मौजूद है */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1541888946747-a16df5f1873e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); 
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #e0e0e0; /* लाइट टेक्स्ट कलर, क्योंकि बैकग्राउंड डार्क होगा */
+            /* ---------------------------------------------------- */
         }
         .container {
             padding: 20px;
+            /* कंटेनर के अंदर के कंटेंट को बैकग्राउंड से अलग दिखाने के लिए */
+            background-color: rgba(255, 255, 255, 0.9); /* हल्का पारदर्शी सफ़ेद */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: 20px auto; /* सेंटर में करें */
         }
 
         /* Header and Controls */
@@ -28,7 +44,7 @@
         #toggleNavBtn {
             padding: 10px 20px;
             border: none;
-            background-color: #1877f2; /* Facebook Blue for a modern look */
+            background-color: #1877f2; 
             color: white;
             border-radius: 6px;
             cursor: pointer;
@@ -53,7 +69,7 @@
         /* Navigation Bar (The main menu) */
         .navbar {
             display: flex;
-            background-color: #333;
+            background-color: rgba(51, 51, 51, 0.9); /* Slightly transparent navbar */
             border-radius: 8px;
             padding: 0; 
             overflow: hidden;
@@ -65,7 +81,7 @@
             margin-bottom: 20px;
         }
         .navbar.visible {
-            max-height: 1000px; /* Large enough to show all content */
+            max-height: 1000px; 
             padding: 5px;
         }
         
@@ -76,7 +92,7 @@
             text-decoration: none;
             font-size: 16px;
             display: block;
-            flex-grow: 1; /* Allows links to share space */
+            flex-grow: 1; 
             min-width: 120px; 
             box-sizing: border-box;
             transition: background-color 0.2s;
@@ -91,14 +107,15 @@
             list-style-type: none;
             padding: 0;
             margin-top: 5px;
-            position: absolute; /* Position relative to .container */
-            z-index: 10; /* Ensures it's above other elements */
-            background-color: white;
+            position: absolute; 
+            z-index: 10; 
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent search results */
             border: 1px solid #ccc;
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            width: calc(100% - 40px); /* Adjust based on container padding */
+            width: calc(100% - 40px); 
             max-width: 400px;
+            color: #333; /* Make text readable on light background */
         }
         .search-results li {
             padding: 10px;
@@ -116,25 +133,34 @@
         /* IFRAME - The main content area */
         #mainFrame {
             width: 100%;
-            height: 70vh; /* Viewport Height for a better fit */
+            height: 70vh; 
             border: 1px solid #ccc;
             border-radius: 8px;
             margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent iframe background */
         }
         
+        h1 {
+            color: #333; /* Heading color for better contrast inside container */
+        }
+
         /* Media Queries for Responsiveness */
         @media (max-width: 768px) {
             .navbar a {
-                flex-basis: 100%; /* Links take full width on smaller screens */
+                flex-basis: 100%; 
                 text-align: left;
             }
             .header {
-                flex-direction: column; /* Stack button and search box */
+                flex-direction: column; 
                 align-items: stretch;
             }
             #toggleNavBtn, #searchBox {
-                order: initial; /* Reset order for stacking */
+                order: initial; 
                 width: 100%;
+            }
+            .container {
+                margin: 10px auto; /* Adjust margin for smaller screens */
+                padding: 15px;
             }
         }
     </style>
@@ -147,7 +173,7 @@
         </div>
         
         <nav id="myNavbar" class="navbar">
-            </nav>
+        </nav>
         
         <ul id="searchResults" class="search-results" style="display:none;"></ul>
         
@@ -162,8 +188,8 @@
         const navData = [
             { name: "Dashboard", url: "https://www.w3schools.com/tags/tag_iframe.asp" }, // Placeholder start page
             { name: "Student Records", url: "https://script.google.com/macros/s/AKfycbwwPoXOzNTiBi88XiE31fCOJpTKrE5sQszlsL8BSiYGRNQCOGWJLqfUtLgbb9UmJQ/exec" },
-            { name: "Attendance Tracking", url: "https://script.google.com/macros/s/AKfycbzr6bO-gmraY5tyhHtTUyDjpHUGMwfpaozlwmMVeK1I4hIaB-BCDl1HGTD9Z6W_kujkXw/exec" },
-            { name: "IX Admit Card", url: "admit-card-ix.html" }, // Better for GitHub
+            { name: "Attendance Tracking", url: "https://script.google.com/macros/s/AKfycbzr6bO-gmraY5tyhHtTUyDjpHUGMwfpaozlwmMVeK1I4hIaB-BCDl1HGTU21_kujkXw/exec" },
+            { name: "IX Admit Card", url: "admit-card-ix.html" }, 
             { name: "VIII Admit Card", url: "admit-card-viii.html" }, 
             { name: "Grades & Results", url: "grades-results.html" },
             { name: "Staff Management", url: "staff-management.html" },
@@ -179,14 +205,13 @@
 
         // Function to create the navigation links dynamically
         function createNavbarLinks() {
-            navbar.innerHTML = ''; // Clear existing content
+            navbar.innerHTML = ''; 
             navData.forEach(item => {
                 const link = document.createElement('a');
                 link.href = item.url;
                 link.textContent = item.name;
-                link.target = 'mainFrame'; // Loads link into the iframe
+                link.target = 'mainFrame'; 
                 link.addEventListener('click', () => {
-                    // Optional: Close nav after clicking a link on mobile
                     if (window.innerWidth <= 768) {
                        navbar.classList.remove('visible');
                     }
@@ -218,8 +243,7 @@
                         li.addEventListener('click', () => {
                             mainFrame.src = item.url;
                             searchResults.style.display = 'none';
-                            searchBox.value = item.name; // Show selected item in box
-                            // Hide the nav menu upon successful selection
+                            searchBox.value = item.name; 
                             navbar.classList.remove('visible'); 
                         });
                         searchResults.appendChild(li);
@@ -234,12 +258,8 @@
         }
         
         // --- Initialization ---
-        // 1. Create the links on load
         createNavbarLinks();
-        // 2. Attach the search event listener
         searchBox.addEventListener('input', handleSearchInput);
-        
-        // 3. Set the initial iframe content (optional, but good practice)
         mainFrame.src = navData[0].url; // Load the Dashboard by default
 
     </script>

@@ -49,15 +49,14 @@
         opacity: 0.1; /* Low opacity for watermark effect */
         z-index: 0;
     }
-    .logo {
-  position: absolute;
-  top:  -3.5rem;
-  left:  0.5rem;
-  z-index: 1; /* Watermark से ऊपर रखने के लिए */
-
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
+  .logo {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      z-index: 1; /* Logo must be above the watermark */
     }
 	  
     .marksheet > * {
@@ -611,6 +610,7 @@
   </script>
 </body>
 </html>
+
 
 
 

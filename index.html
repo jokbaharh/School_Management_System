@@ -50,14 +50,20 @@
         z-index: 0;
     }
     .logo {
-     position: absolute;
-      top: 2.5rem;
-       left: 0.5rem;
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-     /* z-index: 1;  Logo must be above the watermark */
+      /* ये वेरिएबल्स आपको JS में ओवरराइड करने की अनुमति देते हैं */
+  --logo-top: -3.5rem;   /* Default position */
+  --logo-left: 0.5rem;  /* Default position */
+
+  position: absolute;
+  top: var(--logo-top);
+  left: var(--logo-left);
+  z-index: 10; /* Watermark से ऊपर रखने के लिए */
+
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
     }
+	  
     .marksheet > * {
         position: relative;
         z-index: 10; /* Ensure all content is above the watermark */
@@ -608,6 +614,7 @@
   </script>
 </body>
 </html>
+
 
 
 

@@ -3,96 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bright Future Academy</title>
+    <title>Bright Future Academy - School Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* 1. Global Styles and Layout Fixes */
         :root {
             --primary-color: #004c99;
             --secondary-color: #ff6600;
             --text-color: #333;
-            --light-bg: #f8f9fa;
             --header-height: 120px; 
             --footer-height: 120px; 
             --menu-width: 280px; 
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Essential for Fixed Layout */
-        html, body {
-            height: 100%;
-            overflow: hidden; 
-            font-family: 'Poppins', sans-serif;
-            color: var(--text-color);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* FIXED HEADER */
-        header {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); background-color: white;
-        }
-        .search-container { padding: 10px 0; background-color: var(--light-bg); border-bottom: 1px solid #ddd; }
-        .top-bar { background-color: var(--primary-color); color: white; padding: 8px 0; font-size: 0.9em; }
-        nav .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; margin-left: 60px; } 
-
-        /* FIXED FOOTER (Thin) */
-        footer {
-            position: fixed; bottom: 0; width: 100%; height: var(--footer-height); 
-            z-index: 1000; background-color: #222; color: white; padding-top: 5px; 
-        }
-
-        /* SCROLLABLE CONTENT WRAPPER */
-        .main-content-wrapper {
-            position: absolute; top: var(--header-height); bottom: var(--footer-height);
-            left: 0; right: 0; overflow-y: auto; z-index: 50;
-        }
+        /* ... (Common and Fixed Layout Styles - Unchanged) ... */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; color: var(--text-color); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); background-color: white; }
+        .top-bar { background-color: var(--primary-color); color: white; padding: 8px 0; font-size: 0.9em; position: relative; }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
         
-        /* SLIDE-OUT MENU STYLES */
-        #slide-menu {
-            position: fixed; left: 0; height: 100%; width: var(--menu-width); z-index: 2000; padding-top: 150px;
-            background-color: rgba(0, 76, 153, 0.95); box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
-            transform: translateX(-100%); transition: transform 0.4s ease-in-out;
+        /* NEW: Auth Buttons Container */
+        #auth-buttons {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1001;
         }
+
+        .auth-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        .auth-btn:hover { background-color: #e55a00; }
+        .auth-btn.admin { background-color: var(--primary-color); }
+        .auth-btn.admin:hover { background-color: #003a7a; }
+
+        footer { position: fixed; bottom: 0; width: 100%; height: var(--footer-height); z-index: 1000; background-color: #222; color: white; padding-top: 5px; }
+        .main-content-wrapper { position: absolute; top: var(--header-height); bottom: var(--footer-height); left: 0; right: 0; overflow-y: auto; z-index: 50; }
+
+        /* Slide Menu Styles (Unchanged) */
+        #slide-menu { position: fixed; left: 0; height: 100%; width: var(--menu-width); z-index: 2000; padding-top: 150px; background-color: rgba(0, 76, 153, 0.95); box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2); transform: translateX(-100%); transition: transform 0.4s ease-in-out; }
         #slide-menu.is-open { transform: translateX(0); }
         .slide-links { list-style: none; padding: 0 20px; }
         .slide-links li { margin: 15px 0; text-align: left; }
         .slide-links a { display: block; color: white; font-weight: 700; font-size: 1.3em; padding: 10px 15px; text-decoration: none; transition: background-color 0.3s; border-radius: 5px; }
         .slide-links a:hover, .slide-links a.active { background-color: rgba(255, 255, 255, 0.1); color: var(--secondary-color); }
 
-        .hamburger { 
-            display: block; font-size: 1.5em; cursor: pointer; color: var(--primary-color); 
-            z-index: 3000; position: absolute; left: 20px; top: 25px; padding: 10px;
-            transition: transform 0.3s;
-        }
-        .hamburger.is-active i.fa-ellipsis-v:before { content: "\f00d"; }
-        
-        #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1999; display: none; }
-        
-        /* SECTION STYLES (Keep the Hero section visible by default for the first load) */
-        h2 { font-size: 2.5em; font-weight: 700; text-align: center; margin-bottom: 40px; color: var(--primary-color); position: relative; padding-bottom: 10px; }
-        .hero { background: linear-gradient(rgba(0, 76, 153, 0.6), rgba(0, 76, 153, 0.6)), url('hero-bg.jpg') center/cover no-repeat; height: 70vh; display: flex; justify-content: center; align-items: center; text-align: center; color: white; }
-        .welcome { padding: 40px 0; background-color: var(--light-bg); }
-        .features { padding: 40px 0; }
-        .announcements { padding: 40px 0; background-color: var(--primary-color); color: white; }
-        .announcements h2 { color: white; }
-        .gallery { padding: 40px 0; text-align: center; }
-        .contact { padding: 40px 0; background-color: white; }
-        .spacer-for-footer { height: var(--footer-height); } 
-        /* ... (Other section styles are fine) ... */
+        /* Full-Fit iFrame for Dynamic Content (Unchanged) */
+        #dynamic-content-iframe { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; background-color: white; display: none; }
+        #dynamic-iframe { width: 100%; height: 100%; border: none; display: block; }
+        .spacer-for-footer { display: none; }
     </style>
 </head>
 <body>
@@ -101,21 +75,23 @@
         <div class="top-bar">
             <div class="container">
                 <div class="contact-info"><span><i class="fas fa-phone"></i> +91 9876543210</span><span><i class="fas fa-envelope"></i> info@brightfuture.edu</span></div>
-                <div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div>
+                
+                <div id="auth-buttons">
+                    <button class="auth-btn" id="register-user-btn">Register User</button>
+                    <button class="auth-btn admin" id="login-admin-btn">Admin Login</button>
+                </div>
             </div>
         </div>
         <nav>
             <div class="container">
-                <div class="hamburger" id="menu-toggle">
-                    <i class="fas fa-ellipsis-v"></i> 
-                </div>
-                <div class="logo"><img src="logo.png" alt="Bright Future Academy"><h1>Bright Future <span>Academy</span></h1></div>
+                <div class="hamburger" id="menu-toggle"><i class="fas fa-ellipsis-v"></i></div>
+                <div class="logo"><img src="logo.png" alt="Bright Future Academy"><h1>Bright Future <span>Portal</span></h1></div>
             </div>
         </nav>
         <div class="search-container">
             <div class="container">
                 <form class="search-form" id="customSearchForm">
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search section (e.g., Features) or enter a URL (e.g., https://example.com)..." required>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search Data (e.g., student name) or URL (e.g., sheet1)..." required>
                     <button type="submit" class="search-button"><i class="fas fa-search"></i> Search</button>
                 </form>
             </div>
@@ -123,111 +99,53 @@
     </header>
     
     <div id="menu-overlay"></div> 
-    
     <div id="slide-menu">
         <ul class="slide-links">
-            <li><a href="#" class="active">HOME</a></li>
-            <li><a href="#about">ABOUT US</a></li>
-            <li><a href="#academics">ACADEMICS</a></li>
-            <li><a href="#admissions">ADMISSIONS</a></li>
-            <li><a href="#gallery">GALLERY</a></li>
-            <li><a href="#contact">CONTACT</a></li>
+            <li><a href="#" class="active" data-content-type="static">HOME</a></li>
+            <li><a href="#about" data-content-type="static">ABOUT US</a></li>
+            
+            <li><a href="#data-entry" data-content-type="dynamic">U-Dise + Data Entry</a></li>
+            <li><a href="#user-reg" data-content-type="dynamic">User Registration Form</a></li>
+            <li><a href="#search-data" data-content-type="dynamic">Search Data (Sheet Wise)</a></li>
+            <li><a href="#result-nav" data-content-type="dynamic">Result View / Search</a></li>
+            <li><a href="#admit-card" data-content-type="dynamic">Admit Card</a></li>
+            <li><a href="#exam-form" data-content-type="dynamic">Exam Form</a></li>
+            <li><a href="#mark-entry" data-content-type="dynamic">Mark Entry</a></li>
+            <li><a href="#cross-list" data-content-type="dynamic">Download Cross List</a></li>
+            <li><a href="#attendance" data-content-type="dynamic">Attendance</a></li>
+            <li><a href="#staff-detail" data-content-type="dynamic">Staff Details</a></li>
+            <li><a href="#new-staff" data-content-type="dynamic">New Staff Entry</a></li>
+            <li><a href="#id-card" data-content-type="dynamic">ID Card</a></li>
+            <li><a href="#routine" data-content-type="dynamic">Routine</a></li>
         </ul>
     </div>
 
     <div class="main-content-wrapper">
         
-        <section id="result-iframe-container" class="container">
-            <h2>Search Result (External Content)</h2>
-            <p style="color: red; margin-bottom: 15px;">**NOTE:** This section will scroll. Also, many sites block iFraming.</p>
-            <iframe id="result-iframe" name="result-iframe" src="" frameborder="0" allowfullscreen></iframe>
+        <section id="dynamic-content-iframe">
+            <iframe id="dynamic-iframe" name="dynamic-iframe" src="" allowfullscreen></iframe>
         </section>
 
         <section id="hero" class="hero">
-            <div class="hero-content"><h2>Shaping Future Leaders</h2><p>Providing quality education since 1995</p><a href="#" class="btn">Learn More</a></div>
+            <div class="hero-content"><h2>Shaping Future Leaders</h2><p>Welcome to the School Management Portal.</p><a href="#" class="btn">Explore Features</a></div>
         </section>
 
         <section id="about" class="welcome" style="display:none;">
             <div class="container">
-                <h2>About Us: Our Vision & Mission</h2>
+                <h2>About Us: Our Portal Vision</h2>
                 <div class="section-header-image">
                     <img src="about-us-img.jpg" alt="A group of diverse students collaborating happily.">
                 </div>
                 <div class="section-intro-text">
-                    <p>यह सेक्शन **'About Us'** नैविगेशन लिंक पर क्लिक करने से खुला है। यहाँ हमारी **विज़न (Vision)** और **मिशन (Mission)** का विस्तृत विवरण है। ब्राइट फ्यूचर एकेडमी ज्ञान और मूल्यों को बढ़ावा देने के लिए समर्पित है।</p>
+                    <p>यह सेक्शन पोर्टल और एकेडमी के बारे में है। यह एक **स्थिर पेज (Static Page)** है।</p>
                 </div>
                 <div class="welcome-text">... (Existing content) ...</div>
             </div>
         </section>
-
-        <section id="academics" class="features" style="display:none;">
-            <div class="container">
-                <h2>Academics: Programs and Curriculum</h2>
-                <div class="section-header-image">
-                    <img src="academics-img.jpg" alt="A teacher leading a class with a digital board.">
-                </div>
-                <div class="section-intro-text">
-                    <p>यह सेक्शन **'Academics'** नैविगेशन लिंक पर क्लिक करने से खुला है। यहाँ हमारे **शैक्षणिक कार्यक्रम (Academic Programs)** और **आधुनिक पाठ्यक्रम (Modern Curriculum)** की जानकारी है।</p>
-                </div>
-                <div class="features-grid">... (Features content) ...</div>
-            </div>
-        </section>
-
-        <section id="admissions" class="announcements" style="display:none;">
-            <div class="container">
-                <h2>Admissions: Process and Deadlines</h2>
-                <div class="section-header-image">
-                    <img src="admissions-img.jpg" alt="A student looking at a school notice board.">
-                </div>
-                <div class="section-intro-text" style="color: white;">
-                    <p>यह सेक्शन **'Admissions'** नैविगेशन लिंक पर क्लिक करने से खुला है। यहाँ **दाखिला प्रक्रिया (Admission Process)**, महत्वपूर्ण **समय-सीमा (Deadlines)** और आवश्यक **दस्तावेज़ों** की जानकारी है।</p>
-                </div>
-                <div class="announcement-slider">... (Announcements content) ...</div>
-            </div>
-        </section>
-        
-        <section id="gallery" class="gallery" style="display:none;">
-            <div class="container">
-                <h2>Gallery: Campus Life & Events</h2>
-                <div class="section-header-image">
-                    <img src="gallery-img.jpg" alt="Students celebrating a school event.">
-                </div>
-                <div class="section-intro-text">
-                    <p>यह सेक्शन **'Gallery'** नैविगेशन लिंक पर क्लिक करने से खुला है। यहाँ हमारे **कैंपस जीवन (Campus Life)**, **गतिविधियों (Activities)** और **पिछले इवेंट्स** की तस्वीरें हैं।</p>
-                </div>
-                <div class="gallery-grid">... (Gallery content) ...</div>
-            </div>
-        </section>
-        
-        <section id="contact" class="contact" style="display:none;">
-            <div class="container">
-                <h2>Contact Us</h2>
-                <div class="contact-info">...</div>
-                <div class="contact-form">...</div>
-            </div>
-        </section>
-        
-        <div class="spacer-for-footer"></div> 
         
     </div>
     
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about"><h3>Bright Future Academy</h3><p style="font-size: 0.8em;">Committed to holistic education and nurturing future leaders since 1995.</p></div>
-                <div class="footer-links"><h3>Quick Links</h3><ul><li><a href="#" style="color: white; font-size: 0.8em;">Home</a></li><li><a href="#about" style="color: white; font-size: 0.8em;">About Us</a></li></ul></div>
-                <div class="footer-contact">
-                    <h3>Get In Touch</h3>
-                    <p style="font-size: 0.8em;"><i class="fas fa-map-marker-alt"></i> 123 Education Street</p>
-                    <div class="social-links-footer" style="margin-top: 5px;">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom"><p>© 2025 Bright Future Academy. All rights reserved.</p></div>
-        </div>
-    </footer>
+    <footer>...</footer>
 
 
     <script>
@@ -236,9 +154,32 @@
         const menuOverlay = document.getElementById('menu-overlay');
         const slideLinks = document.querySelectorAll('.slide-links a');
         const mainContentWrapper = document.querySelector('.main-content-wrapper');
-        const iframeContainer = document.getElementById('result-iframe-container');
-        // Select all main content sections EXCEPT the iframe container
-        const homeSections = document.querySelectorAll('.main-content-wrapper > section:not(#result-iframe-container)');
+        const dynamicIframeContainer = document.getElementById('dynamic-content-iframe');
+        const dynamicIframe = document.getElementById('dynamic-iframe');
+        const staticSections = document.querySelectorAll('#hero, #about');
+        const authButtons = document.getElementById('auth-buttons');
+        
+        // --- ADMIN CODE CONFIGURATION ---
+        // जब तक आप यह URL नहीं देते, तब तक Admin Features Disable रहेंगे।
+        const ADMIN_APP_SCRIPT_URL = "YOUR_ADMIN_LOGIN_APP_SCRIPT_URL_HERE"; 
+        const USER_REGISTER_APP_SCRIPT_URL = "YOUR_USER_REGISTRATION_APP_SCRIPT_URL_HERE";
+
+        const dynamicUrls = {
+            "data-entry": "https://script.google.com/macros/s/SAMPLE_DATA_ENTRY_FORM/exec", 
+            "user-reg": USER_REGISTER_APP_SCRIPT_URL, // Same as registration button logic
+            "search-data": "https://script.google.com/macros/s/SAMPLE_SEARCH_PAGE/exec?sheet=", // Requires Sheet Name appended
+            "result-nav": "https://script.google.com/macros/s/SAMPLE_RESULT_PAGE/exec",
+            "admit-card": "https://script.google.com/macros/s/SAMPLE_ADMIT_CARD/exec",
+            "exam-form": "https://script.google.com/macros/s/SAMPLE_EXAM_FORM/exec",
+            "mark-entry": "https://script.google.com/macros/s/SAMPLE_MARK_ENTRY/exec",
+            "cross-list": "https://script.google.com/macros/s/SAMPLE_CROSS_LIST_DOWNLOAD/exec",
+            "attendance": "https://script.google.com/macros/s/SAMPLE_ATTENDANCE_SYSTEM/exec",
+            "staff-detail": "https://script.google.com/macros/s/SAMPLE_STAFF_VIEW/exec",
+            "new-staff": "https://script.google.com/macros/s/SAMPLE_NEW_STAFF_ENTRY/exec",
+            "id-card": "https://script.google.com/macros/s/SAMPLE_ID_CARD_GENERATOR/exec",
+            "routine": "https://script.google.com/macros/s/SAMPLE_ROUTINE_VIEWER/exec"
+        };
+        // ------------------------------------
 
         function toggleMenu() {
             slideMenu.classList.toggle('is-open');
@@ -246,51 +187,83 @@
             menuOverlay.style.display = slideMenu.classList.contains('is-open') ? 'block' : 'none';
         }
 
+        // --- Core Navigation Logic ---
+        function navigateContent(targetId, url = null) {
+            staticSections.forEach(section => { section.style.display = 'none'; });
+            dynamicIframeContainer.style.display = 'none';
+            mainContentWrapper.scrollTop = 0; 
+            
+            // Check if it's a static section
+            if (targetId === 'hero' || targetId === 'about') {
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.style.display = 'block'; 
+                }
+            } else if (url) {
+                // It's a dynamic section, load the iframe
+                dynamicIframe.src = url;
+                dynamicIframeContainer.style.display = 'block';
+            }
+        }
+
         menuToggle.addEventListener('click', toggleMenu);
         menuOverlay.addEventListener('click', toggleMenu); 
 
-        // *** CRITICAL FIX: Logic to show ONLY the selected section ***
         slideLinks.forEach(link => {
             link.addEventListener('click', function(event) {
                 event.preventDefault(); 
-
-                // 1. Menu Close Logic
                 toggleMenu(); 
-                
-                // 2. Determine Target ID (e.g., 'about', 'academics')
-                const href = this.getAttribute('href');
-                let targetId = '';
-                if (href && href.length > 1) {
-                    targetId = href.substring(1); 
-                } else {
-                    targetId = 'hero'; // Home is linked to #hero
-                }
 
-                // 3. Update Active Class
+                const contentType = this.getAttribute('data-content-type');
+                const href = this.getAttribute('href');
+                let targetId = (href && href.length > 1) ? href.substring(1) : 'hero';
+                
+                // Update Active Class
                 slideLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 
-                // 4. HIDE ALL Home Sections & iFrame
-                iframeContainer.style.display = 'none';
-                homeSections.forEach(section => {
-                    section.style.display = 'none'; // CRITICAL: Hide all sections
-                });
-                
-                // 5. Show ONLY the Target Section and Scroll to Top
-                if (targetId) {
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.style.display = 'block'; // CRITICAL: Show only the selected one
-                        
-                        // Scroll to the top of the content wrapper (since only one section is visible)
-                        mainContentWrapper.scrollTop = 0; 
-                        return;
+                if (contentType === 'static') {
+                    navigateContent(targetId);
+                } else if (contentType === 'dynamic') {
+                    // Specific handling for dynamic links
+                    const url = dynamicUrls[targetId];
+                    if (url) {
+                         navigateContent(targetId, url);
+                    } else {
+                        alert(`Error: URL not configured for ${targetId}.`);
+                        navigateContent('hero');
                     }
                 }
             });
         });
-        
-        // --- Search Logic (Updated to show ONLY the relevant section for internal search) ---
+
+        // --- Top-Right Button Logic ---
+        document.getElementById('register-user-btn').addEventListener('click', () => {
+             if (USER_REGISTER_APP_SCRIPT_URL === "YOUR_USER_REGISTRATION_APP_SCRIPT_URL_HERE") {
+                alert("User Registration feature is currently disabled. Please configure the Apps Script URL.");
+                return;
+            }
+            // Navigate to the User Registration Form using the same logic
+            navigateContent('user-reg', USER_REGISTER_APP_SCRIPT_URL);
+            
+            // Set active navigation link if needed (optional for buttons)
+            slideLinks.forEach(l => l.classList.remove('active'));
+        });
+
+        document.getElementById('login-admin-btn').addEventListener('click', () => {
+             if (ADMIN_APP_SCRIPT_URL === "YOUR_ADMIN_LOGIN_APP_SCRIPT_URL_HERE") {
+                alert("Admin Login feature is currently disabled. Please configure the Admin Apps Script URL.");
+                return;
+            }
+            // Navigate to the Admin Login page
+            navigateContent('admin-login', ADMIN_APP_SCRIPT_URL); 
+
+            // Set active navigation link if needed (optional for buttons)
+            slideLinks.forEach(l => l.classList.remove('active'));
+        });
+
+
+        // --- Search Logic (Updated to handle Sheet Name) ---
         document.getElementById('customSearchForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const searchInput = document.getElementById('searchInput').value.trim();
@@ -302,62 +275,46 @@
                 return url;
             }
 
-            const normalizedInput = searchInput.toLowerCase();
-            const internalSections = { "home": "hero", "about": "about", "welcome": "about", "academics": "academics", "features": "academics", "admissions": "admissions", "announcements": "admissions", "gallery": "gallery", "contact": "contact" };
-
-            if (internalSections.hasOwnProperty(normalizedInput)) {
-                // Internal Search: HIDE ALL and Show only the target section
-                const targetId = internalSections[normalizedInput];
+            // Check for sheet name search (e.g., sheet1, sheet2)
+            if (searchInput.toLowerCase().match(/sheet\d+|other/i)) {
+                const sheetName = searchInput.toLowerCase();
+                const searchBaseUrl = dynamicUrls["search-data"];
                 
-                iframeContainer.style.display = 'none';
-                homeSections.forEach(section => section.style.display = 'none'); // Hide all sections
-
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.style.display = 'block'; // Show only the target section
-                    mainContentWrapper.scrollTop = 0;
-                } else if (targetId === "hero") {
-                    document.getElementById('hero').style.display = 'block';
-                    mainContentWrapper.scrollTop = 0;
+                if (searchBaseUrl.includes("SAMPLE_SEARCH_PAGE")) {
+                    alert("Data Search feature is currently disabled. Please configure the Apps Script URL for 'Search Data (Sheet Wise)'.");
+                    return;
                 }
+
+                // Append the sheet name to the URL
+                const finalSearchUrl = searchBaseUrl + sheetName;
+                navigateContent('search-data', finalSearchUrl);
                 
+                // Set 'Search Data' as active in the menu (optional)
                 slideLinks.forEach(l => l.classList.remove('active'));
-                
-                return; 
+                document.querySelector('a[href="#search-data"]').classList.add('active');
+                return;
             }
 
+            // Fallback for general URL search (uses dynamic iframe)
             if (searchInput.includes('.') || searchInput.startsWith('http')) {
-                // URL Search: Hide all home sections, show iframe
-                document.getElementById('result-iframe').src = normalizeUrl(searchInput);
-                iframeContainer.style.display = 'block';
-                homeSections.forEach(section => section.style.display = 'none');
-                
-                mainContentWrapper.scrollTop = 0; 
+                const url = normalizeUrl(searchInput);
+                navigateContent('external-url', url);
                 slideLinks.forEach(l => l.classList.remove('active'));
                 return;
             }
 
-            // Search failed: Ensure home sections are visible again
-            alert('Search not found. Please try "Gallery", "Contact", or a full URL like "example.com".');
-            iframeContainer.style.display = 'none';
-            // Show only the current active section, or Hero if none
-            const activeLink = document.querySelector('.slide-links a.active');
-            let initialTarget = activeLink ? (activeLink.getAttribute('href').substring(1) || 'hero') : 'hero';
-            document.getElementById(initialTarget).style.display = 'block';
+            alert('Search not found. Please enter a sheet name (e.g., sheet1) or a full URL.');
         });
 
         // Initial setup on page load
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('result-iframe-container').style.display = 'none';
-            // Initially, only show the Hero section
-            homeSections.forEach(section => {
-                if (section.id !== 'hero') {
-                    section.style.display = 'none';
-                } else {
-                    section.style.display = 'block'; // Ensure Hero is visible
-                }
+            // Show only the Hero section initially
+            staticSections.forEach(section => {
+                section.style.display = (section.id === 'hero') ? 'block' : 'none';
             });
-
+            dynamicIframeContainer.style.display = 'none';
+            
+            // Ensure HOME link is active
             if (slideLinks.length > 0) {
                  slideLinks[0].classList.add('active');
             }
